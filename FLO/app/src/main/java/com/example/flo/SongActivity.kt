@@ -20,8 +20,8 @@ class SongActivity : AppCompatActivity() {
         binding = ActivitySongBinding.inflate(layoutInflater) //xml 레이아웃 메모리에 객체화
         setContentView(binding.root) //activity_song.xml 레이아웃 요소들을 마음대로 씀
 
-        if(intent.hasExtra("title") && intent.hasExtra("singer")){
-            binding.songMusicTitleTv.text = intent.getStringExtra("title")
+        if(intent.hasExtra("title") && intent.hasExtra("singer")){ //intent에 해당 키값 존재하는지
+            binding.songMusicTitleTv.text = intent.getStringExtra("title") //받아온값 담음
             binding.songSingerNameTv.text = intent.getStringExtra("singer")
         }
 
