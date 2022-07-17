@@ -9,9 +9,11 @@ import com.example.flo.databinding.ItemSongBinding
 class SavedSongRVAdapter() :
     RecyclerView.Adapter<SavedSongRVAdapter.ViewHolder>() {
     private val songs = ArrayList<Song>()
+
     interface MyItemClickListener{
         fun onRemoveSong(songId: Int)
     }
+
     private lateinit var mItemClickListener : MyItemClickListener
 
     fun setMyItemClickListener(itemClickListener: MyItemClickListener){

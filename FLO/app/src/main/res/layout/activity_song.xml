@@ -137,7 +137,7 @@
 
         <ImageView
             android:id="@+id/song_like_iv"
-            android:layout_width="25dp"
+            android:layout_width="24dp"
             android:layout_height="25dp"
             android:src="@drawable/ic_my_like_off" />
 

@@ -113,7 +113,7 @@ class SongActivity : AppCompatActivity() {
 
     private fun setLike(isLike: Boolean){
         songs[nowPos].isLike = !isLike
-        songDB.songDao().updateIsLikeById(!isLike, songs[nowPos].id)
+        songDB.songDao().updateIsLikeById(!isLike, songs[nowPos].id) //동기화
 
         if (!isLike){
             binding.songLikeIv.setImageResource(R.drawable.ic_my_like_on)
