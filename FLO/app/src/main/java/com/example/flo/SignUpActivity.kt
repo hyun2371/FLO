@@ -77,7 +77,6 @@ class SignUpActivity : AppCompatActivity(), SignUpView {
 
         authService.signUp(getUser()) //api호출
     }
-
     override fun onSignUpSuccess() {
         finish()
     }

@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivityLoginBinding
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginView{
     lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?){
@@ -37,24 +37,48 @@ class LoginActivity : AppCompatActivity() {
         val email: String = binding.loginIdEt.text.toString() + "@" + binding.loginDirectInputEt.text.toString()
         val pwd: String = binding.loginPasswordEt.text.toString()
 
-        val songDB = SongDatabase.getInstance(this)!!
-        val user = songDB.userDao().getUser(email,pwd) //유저가 존재하는지 확인
-        
-        //DB에서 해당 유저를 찾았을 경우
-        user?.let {
-            Log.d("LOGIN_ACT/GET_USER","userId: ${user.id},$user")
-            saveJwt(user.id)
-        }
-        
+//        val songDB = SongDatabase.getInstance(this)!!
+//        val user = songDB.userDao().getUser(email,pwd) //유저가 존재하는지 확인
+//
+//        //DB에서 해당 유저를 찾았을 경우
+//        user?.let {
+//            Log.d("LOGIN_ACT/GET_USER","userId: ${user.id},$user")
+//
+            //startMainActivity()
+//        }
+
+
+        val authService = AuthService()
+        authService.setLoginView(this)
+
+        authService.login(getUser())
+
         //찾지 못했을 경우
         Toast.makeText(this,"회원 정보가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
     }
 
-    private fun saveJwt(jwt:Int){
+    private fun getUser(): User {
+        val email = binding.loginIdEt.text.toString() + "@" + binding.loginDirectInputEt.text.toString()
+        val password = binding.loginPasswordEt.text.toString()
+
+        Toast.makeText(this, "회원 정보가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
+        return User(email = email, password = password, name = "")
+    }
+
+//    private fun saveJwt(jwt:Int){
+//        val spf = getSharedPreferences("auth", MODE_PRIVATE)
+//        val editor = spf.edit()
+//
+//        editor.putInt("jwt",jwt)
+//        editor.apply()
+//        startMainActivity()
+//    }
+
+    private fun saveJwt2(jwt:String){
         val spf = getSharedPreferences("auth", MODE_PRIVATE)
         val editor = spf.edit()
 
-        editor.putInt("jwt",jwt)
+        editor.putString("jwt",jwt)
         editor.apply()
         startMainActivity()
     }
@@ -63,4 +87,20 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
+
+
+
+    override fun onLoginSuccess(code: Int, result: Result) {
+        when (code){
+            1000-> {
+                saveJwt2(result.jwt)
+                startMainActivity()
+            }
+        }
+    }
+
+    override fun onLoginFailure() {
+    }
+
+
 }
